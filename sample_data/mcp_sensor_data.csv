@@ -1,0 +1,6 @@
+readings,ground_truth
+"temperature=92C, vibration=8.4mm/s (baseline 1.2), pressure=stable",Fault
+"temperature=45C, vibration=1.1mm/s, pressure=2.3bar, RPM=1800",Normal
+"vibration=12.7mm/s, RPM fluctuating 1750-2100 (target 1800), temperature=normal",Fault
+"temperature=58C (slightly above normal 50C), vibration=2.1mm/s, pressure=stable",Normal
+"pressure=0.6bar (expected 2.5bar), temperature=48C, vibration=normal",Fault

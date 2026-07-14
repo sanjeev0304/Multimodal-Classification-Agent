@@ -1,0 +1,6 @@
+packet,ground_truth
+"TCP SYN flood from 14 IPs targeting port 443, 9000 pkt/sec, no handshakes",Suspicious
+"Standard HTTP GET traffic, port 80, avg 1.2KB packets, 45000 B/s",Normal
+"Video streaming session, 1400 byte packets, 250000 B/s, duration 180s",Priority
+"ICMP sweep across /24 subnet, 64-byte packets, 500 unique destinations",Suspicious
+"File transfer FTP, 1500 byte packets, 800000 B/s, 45s duration",Priority

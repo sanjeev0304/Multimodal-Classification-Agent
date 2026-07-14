@@ -1,0 +1,152 @@
+=======================================================
+  MULTIMODAL CLASSIFICATION AGENT — STEPS TO RUN
+=======================================================
+
+PREREQUISITES: Python 3.9+ installed on your machine.
+
+-------------------------------------------------------
+STEP 1 — Set up virtual environment
+-------------------------------------------------------
+cd multimodal-classification-agent
+
+python3 -m venv venv
+
+# Activate it:
+source venv/bin/activate          # macOS / Linux
+venv\Scripts\activate             # Windows
+
+-------------------------------------------------------
+STEP 2 — Install dependencies
+-------------------------------------------------------
+pip install -r requirements.txt
+
+(Takes 1-2 minutes the first time)
+
+-------------------------------------------------------
+STEP 3 — Add your Gemini API key
+-------------------------------------------------------
+1. Copy the example env file:
+   cp .env.example .env
+
+2. Open .env in any text editor and replace the placeholder:
+   GEMINI_API_KEY=AIzaSy...your-real-key-here...
+
+   Get a FREE key at: https://aistudio.google.com/apikey
+   The key must start with AIzaSy...
+
+   NOTE: ML Model mode works WITHOUT a key.
+         Only MCP Server mode needs the key.
+
+-------------------------------------------------------
+STEP 4 — Train the ML models (one time only)
+-------------------------------------------------------
+python ml_models/train_all.py
+
+Expected output:
+  Training Sensor Model (GMM + KMeans)
+    GMM    train accuracy: 100.0%
+    KMeans train accuracy: 100.0%
+
+  Training Network Model (Random Forest)
+    Train accuracy: 100.0%
+
+  sensor_test.csv → 32 rows
+  network_test.csv → 24 rows
+
+-------------------------------------------------------
+STEP 5 — Run the app
+-------------------------------------------------------
+streamlit run streamlit_app.py
+
+Opens at: http://localhost:8501
+
+IMPORTANT: Always use "streamlit run", NOT "python streamlit_app.py"
+
+-------------------------------------------------------
+DEMO FLOW (for the presentation)
+-------------------------------------------------------
+
+1. LANDING PAGE shows three cards:
+   → Click "MCP Server" to demo Gemini AI
+   → Click "ML Model" to demo traditional ML
+   → Click "Compare Both" to show accuracy comparison
+
+2. DEMO MCP SERVER (needs API key):
+
+   a) Document Classification:
+      - Sidebar → Document
+      - Click "Use example" → Classify
+      - Shows: Invoice, 97% confidence
+
+   b) Sensor Data — Manual:
+      - Sidebar → Sensor Data
+      - Click "Use example" → Classify
+      - Shows: Fault, with sensor type
+
+   c) Sensor Data — Batch CSV upload:
+      - Tab: "Batch File Upload"
+      - Upload: sample_data/mcp_sensor_data.csv
+      - Click "Classify All Rows"
+      - Shows: results table with all rows
+
+   d) Network Packet:
+      - Sidebar → Network Packet
+      - Click "Use example" → Classify
+      - Shows: Suspicious
+
+   e) Image Tools (optional):
+      - Sidebar → Image (Tools)
+      - Upload any tool photo
+      - Shows: detected tools with condition
+
+3. DEMO ML MODEL (no API key needed):
+
+   a) Sensor Classifier:
+      - Pick "ML Model" from landing
+      - Sensor Classifier tab
+      - Single Prediction: enter 25.3 → Temperature
+      - Single Prediction: enter 850.0 → Vibration
+      - Batch Upload: sample_data/sensor_data.csv
+
+   b) Network Classifier:
+      - Single Prediction: move "unique_dst_ports" to 80,
+        "syn_ratio" to 0.75 → Suspicious
+      - Single Prediction: "byte_rate" to 200000,
+        "duration" to 120 → Priority
+      - Batch Upload: sample_data/network_data.csv
+
+4. DEMO COMPARE BOTH:
+   - Sensor: upload test_data/sensor_test.csv
+   - Shows: ML=100%, LLM=88%, 5 disagreements
+   - Network: upload test_data/network_test.csv
+   - Shows: ML=100%, LLM=96%, 1 disagreement
+
+-------------------------------------------------------
+TROUBLESHOOTING
+-------------------------------------------------------
+"Please pass a valid API key"
+  → Key in .env is wrong. Must start with AIzaSy
+  → Get it from: https://aistudio.google.com/apikey
+
+"missing ScriptRunContext" warnings
+  → Normal warning when app starts, safe to ignore
+  → If app doesn't open: use "streamlit run" not "python"
+
+"429 Too Many Requests"
+  → Gemini free-tier rate limit hit
+  → Wait 60 seconds and try again
+
+"Model not found" error
+  → Run: python ml_models/train_all.py
+
+CSV upload error: "column not found"
+  → Use the correct sample file for each section:
+     MCP Document:      sample_data/document_data.csv
+     MCP Sensor:        sample_data/mcp_sensor_data.csv
+     MCP Network:       sample_data/mcp_network_data.csv
+     ML Sensor:         sample_data/sensor_data.csv
+     ML Network:        sample_data/network_data.csv
+     Compare (labeled): test_data/sensor_test.csv
+                        test_data/network_test.csv
+
+=======================================================

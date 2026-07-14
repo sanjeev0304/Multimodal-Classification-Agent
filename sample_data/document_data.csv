@@ -1,0 +1,23 @@
+text,ground_truth
+"INVOICE #INV-2026-001
+Bill to: Acme Corp
+Item: Cloud subscription (annual)
+Amount due: $1,200.00
+Due: 30 June 2026",Invoice
+"QUARTERLY REPORT Q2 2026
+Revenue: $4.2M (+12% YoY)
+Key findings: Market expansion in APAC...",Report
+"SERVICE AGREEMENT
+Between: TechCorp (Provider) and ClientX (Client)
+Scope: Software development services
+Duration: 12 months
+Termination clause: 30 days notice...",Contract
+"USER MANUAL — Model X Industrial Scanner
+Section 1: Safety Instructions
+Section 2: Installation Guide
+Section 3: Operating Procedures",Manual
+"INVOICE #INV-2026-042
+Vendor: SupplyChain Ltd
+PO Number: PO-8821
+Items: 500 units @ $12.50 each
+Total: $6,250.00",Invoice
